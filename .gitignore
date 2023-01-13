@@ -1,0 +1,12 @@
+*
+!*.*
+!*/
+
+build
+*.spec
+
+.vscode
+.DS_Store
+
+*.xls
+*.xlsx
