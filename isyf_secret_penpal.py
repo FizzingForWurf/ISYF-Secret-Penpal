@@ -2,6 +2,7 @@ from xlutils.copy import copy
 import xlwt
 import xlrd
 import os.path
+import sys
 import random
 
 NAME_COL = 0
@@ -10,10 +11,13 @@ NATIONALITY_COL = 2
 GENDER_COL = 3
 GROUP_COL = 4
 
+NO_OF_PPL, NO_OF_GRP = 0, 0 # Update in prompt_user
+error_ppl, error_grp = False, False # Update in map_groupings
+
 local_schools = [] # Populate in map_groupings()
 original_delegates = [] # Store original sequence of delegates from input file
 
-OUTPUT_FILE = "results.xls"
+OUTPUT_FILE = "pairing_results.xls"
 results_wb = xlwt.Workbook()
 
 class Student:
@@ -38,7 +42,11 @@ participants.
 
 In order for the program to run smoothly, the input file needs to be in a
 certain format which is listed below. The information here only serves as a
-GUIDE, for more information and troubleshooting, please visit: ''')
+GUIDE, for more information and troubleshooting, please visit: 
+https://github.com/FizzingForWurf/ISYF-Secret-Penpal
+
+Alternatively, you can contact me at my Telegram handle @zheng_hongg
+or email me at zhtong@gmail.com!''')
     input("\nPlease press ENTER to continue...")
 
     print("")
@@ -83,11 +91,14 @@ ignored by the program''')
     print("")
     print('''Lastly, please ensure that the input file is in the same folder as the
 exe program file!''')
-    input_file = input("Enter the name of the file (exclude .xlsx): ") + ".xlsx"
+    input_file = input("\nEnter the name of the file (exclude .xlsx): ") + ".xlsx"
     while (not os.path.isfile(input_file)):
         print("'" + input_file + "' does NOT exists! Please ensure that the input file is in the same folder as the exe program file!")
         input_file = input("Enter the name of the file (exclude .xlsx): ") + ".xlsx"
-    print("")
+
+    global NO_OF_PPL, NO_OF_GRP
+    NO_OF_PPL = int(input("Enter the number of PARTICIPANTS: "))
+    NO_OF_GRP = int(input("Enter the number of GROUPS: "))
     
     delegates_wb = xlrd.open_workbook(input_file)
     return delegates_wb
@@ -141,7 +152,12 @@ def map_groupings(delegates_wb):
             school_dict[school].append(person)
         else:
             school_dict[school] = [person]
-            
+
+    # Check if number of people and group correct
+    global error_ppl, error_grp
+    error_ppl = NO_OF_PPL != len(original_delegates)
+    error_grp = NO_OF_GRP != group_counter
+
     # Sort schools by the number of students
     # Students from schools with more people should on top
     processed_delegates = sorted(school_dict.items(), key=lambda x: len(x[1]), reverse=True)
@@ -164,7 +180,7 @@ def map_groupings(delegates_wb):
     return new_delegates
 
 def allocate_pairs(delegates):
-    print("Allocating pairs... \n")
+    print("\nAllocating pairs... \n")
     
     pairs_sheet = results_wb.add_sheet("Pairs")
     write_header(pairs_sheet)
@@ -173,8 +189,8 @@ def allocate_pairs(delegates):
     row_count = 1
     pair_result = {}
     while (len(delegates) > 1):
-        index = random.randint(1, len(delegates)-1)
-        cur_stu, pair_stu = delegates[0], delegates[index]
+        pair_index = random.randint(1, len(delegates)-1)
+        cur_stu, pair_stu = delegates[0], delegates[pair_index]
         print("%-25s%3s%25s" % (cur_stu.name, "-->", pair_stu.name), end='')
 
         both_foreigner = cur_stu.isForeigner and pair_stu.isForeigner
@@ -190,7 +206,7 @@ def allocate_pairs(delegates):
             write_student_info(pairs_sheet, row_count, pair_stu, col_offset=6)
 
             #REMOVE first person and the penpal from the lists
-            delegates.pop(index)
+            delegates.pop(pair_index)
             delegates.pop(0)
             
             row_count += 1
@@ -207,7 +223,7 @@ def allocate_pairs(delegates):
         print("No odd person left! Everyone is paired up :)")
 
     print("\nSuccessfully allocated all pairs!")
-    print("Pairing results can be found in results.xls file!")
+    print("Pairing results can be found in pairing_results.xls file!")
     results_wb.save(OUTPUT_FILE)
     return pair_result
 
@@ -227,5 +243,26 @@ def show_in_groups(pairs):
 
 delegates_wb = prompt_user()
 delegates = map_groupings(delegates_wb)
+
+if (error_ppl):
+    print("\nERROR: Incorrect number of participants detected!")
+if (error_grp):
+    print("\nERROR: Incorrect number of groups detected!")
+if (error_ppl or error_grp):
+    print('''
+Please ensure that the number of participants and/or groups entered
+is correct or check the format of the input excel sheet.
+
+For more information, please visit: 
+https://github.com/FizzingForWurf/ISYF-Secret-Penpal
+
+Alternatively, contact me at my Telegram handle @zheng_hongg or
+email me at zhtong@gmail.com''' )
+    
+    input("\nPress ENTER to exit the program...")
+    sys.exit()
+
 pairs = allocate_pairs(delegates)
 show_in_groups(pairs)
+
+input("\nPress ENTER to exit the program...")
