@@ -20,6 +20,14 @@ original_delegates = [] # Store original sequence of delegates from input file
 OUTPUT_FILE = "pairing_results.xls"
 results_wb = xlwt.Workbook()
 
+def get_path(path):
+    if getattr(sys, 'frozen', False):
+        application_path = os.path.dirname(sys.executable)
+    else:
+        application_path = os.path.dirname(os.path.abspath(__file__))
+
+    return os.path.join(application_path, path)
+
 class Student:
     def __init__(self, name, school, nationality, gender, group, isForeigner):
         self.name = name
@@ -92,7 +100,7 @@ ignored by the program''')
     print('''Lastly, please ensure that the input file is in the same folder as the
 exe program file!''')
     input_file = input("\nEnter the name of the file (exclude .xlsx): ") + ".xlsx"
-    while (not os.path.isfile(input_file)):
+    while (not os.path.isfile(get_path(input_file))):
         print("'" + input_file + "' does NOT exists! Please ensure that the input file is in the same folder as the exe program file!")
         input_file = input("Enter the name of the file (exclude .xlsx): ") + ".xlsx"
 
@@ -100,7 +108,7 @@ exe program file!''')
     NO_OF_PPL = int(input("Enter the number of PARTICIPANTS: "))
     NO_OF_GRP = int(input("Enter the number of GROUPS: "))
     
-    delegates_wb = xlrd.open_workbook(input_file)
+    delegates_wb = xlrd.open_workbook(get_path(input_file))
     return delegates_wb
 
 def write_header(sheet, col_offset=0):
@@ -176,7 +184,7 @@ def map_groupings(delegates_wb):
         student = new_delegates[i-1]
         write_student_info(new_delegates_sheet, i, student)
 
-    results_wb.save(OUTPUT_FILE)
+    results_wb.save(get_path(OUTPUT_FILE))
     return new_delegates
 
 def allocate_pairs(delegates):
@@ -224,7 +232,7 @@ def allocate_pairs(delegates):
 
     print("\nSuccessfully allocated all pairs!")
     print("Pairing results can be found in pairing_results.xls file!")
-    results_wb.save(OUTPUT_FILE)
+    results_wb.save(get_path(OUTPUT_FILE))
     return pair_result
 
 def show_in_groups(pairs):
@@ -239,7 +247,7 @@ def show_in_groups(pairs):
             other = pairs[student.name]
             write_student_info(grouped_sheet, i+1, other, col_offset=6)
     
-    results_wb.save(OUTPUT_FILE)
+    results_wb.save(get_path(OUTPUT_FILE))
 
 delegates_wb = prompt_user()
 delegates = map_groupings(delegates_wb)
