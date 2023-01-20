@@ -20,13 +20,13 @@ For `Mac`, please download the executable file `isyf_secret_penpal_mac` in the `
 
 - Open a `terminal` instance and navigate into the folder with the downloaded file using the `cd` command. It will most probably be in the downloads folder.
 
-```sh
+```bash
 cd Downloads/
 ```
 
 -  Next, make the file into an Unix executable file for it to run by using the `chmod 755` command followed by the name of the file.
 
-```sh
+```bash
 chmod 755 isyf_secret_penpal_mac
 ```
 
