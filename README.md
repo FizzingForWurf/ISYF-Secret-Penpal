@@ -50,14 +50,18 @@ For the program to interpret the participants information correctly, please foll
 
 2. The **2<sup>nd</sup> sheet** should contain the delegates information in their respective groups.
 
-    1. The **1<sup>st</sup> ROW** contains the **headers** (Name, School, Nationality, Gender). This row of information will be ignored by the program
+| Name | School | Nationality | Gender |
+| :--: | :----: | :---------: | :----: |
+| Tom  | ABC School | Singaporean | M  |
 
-    2. **1<sup>st</sup> COLUMN**: *Name* of participant
-    3. **2<sup>nd</sup> COLUMN**: *School* of participant
-    4. **3<sup>rd</sup> COLUMN**: *Nationality* of participant
-    5. **4<sup>th</sup> COLUMN**: *Gender* of participant
+1. The **1<sup>st</sup> ROW** contains the **headers** (Name, School, Nationality, Gender). This row of information will be ignored by the program
 
-    > *Important*: Leave an **EMPTY ROW** between participants of **different** groups. This is for the program to identify the groupings
+2. **1<sup>st</sup> COLUMN**: *Name* of participant
+3. **2<sup>nd</sup> COLUMN**: *School* of participant
+4. **3<sup>rd</sup> COLUMN**: *Nationality* of participant
+5. **4<sup>th</sup> COLUMN**: *Gender* of participant
+
+> **Important**: Leave an **EMPTY ROW** between participants of **different** groups. This is for the program to identify the groupings
 
 ![](images/groupings.png)
 
