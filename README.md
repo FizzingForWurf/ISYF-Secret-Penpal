@@ -18,13 +18,20 @@ For `Windows`, please download the executable file `isyf_secret_penpal_windows` 
 
 For `Mac`, please download the executable file `isyf_secret_penpal_mac` in the `mac` folder. 
 
-- Open a `terminal` instance and navigate into the folder with the downloaded file. It will most probably be in the downloads folder.
--  Next, make the file into an Unix executable file for it to run by using the `chmod 755` command followed by the name of the file.
+- Open a `terminal` instance and navigate into the folder with the downloaded file using the `cd` command. It will most probably be in the downloads folder.
 
 ```sh
 cd Downloads/
+```
+
+-  Next, make the file into an Unix executable file for it to run by using the `chmod 755` command followed by the name of the file.
+
+```sh
 chmod 755 isyf_secret_penpal_mac
 ```
+
+- **Control-click** or **Right-click** the executable file and select `Open`. 
+- Select `Open` again on the confirmation prompt to run the file.
 
 ## How to use
 Ensure that the input excel sheet is in the **SAME FOLDER** as the program so that it can find it!
