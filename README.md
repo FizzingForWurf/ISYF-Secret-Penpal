@@ -14,9 +14,17 @@ This is to promote culture appreciation among the participants and reduce the ch
 Note: This program is written for the Secret Penpal activity conducted during the International Science Youth Forum (ISYF). 
 
 ## Download
-For `Windows`, please download the executable file in the `windows` folder. Click on the program to run.
+For `Windows`, please download the executable file `isyf_secret_penpal_windows` in the `windows` folder. Click on the program to run.
 
-For `Mac`, please download the executable file in the `mac` folder. Open a `terminal` instance then drag and drop the downloaded program into the terminal. The path of the program should be shown and press enter to run. 
+For `Mac`, please download the executable file `isyf_secret_penpal_mac` in the `mac` folder. 
+
+- Open a `terminal` instance and navigate into the folder with the downloaded file. It will most probably be in the downloads folder.
+-  Next, make the file into an Unix executable file for it to run by using the `chmod 755` command followed by the name of the file.
+
+```sh
+cd Downloads/
+chmod 755 isyf_secret_penpal_mac
+```
 
 ## How to use
 Ensure that the input excel sheet is in the **SAME FOLDER** as the program so that it can find it!
